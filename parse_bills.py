@@ -2,77 +2,111 @@ import csv
 import os
 import json
 
-OUTPUT_COLUMNS = [
-        'billID',
-        'active',
-        'enacted',
-        'vetoed',
-        'officialTitle',
-        'popularTitle'
-        ]
-
-of = open('outputs/bills.csv', 'w')
-writer = csv.DictWriter(of, OUTPUT_COLUMNS, extrasaction='ignore')
-writer.writeheader()
-
-rof = open('outputs/bills_legislators.csv', 'w')
-rel_writer = csv.DictWriter(rof, ['billID', 'thomasID', 'cosponsor'], extrasaction='ignore')
-rel_writer.writeheader()
-
-srelof = open('outputs/bills_subjects.csv', 'w')
-srel_writer = csv.DictWriter(srelof, ['billID', 'title'], extrasaction='ignore')
-srel_writer.writeheader()
+DATA_ROOT = 'data'
+BILL_TYPES = ['hr', 's', 'hjres', 'sjres']
+BILLS_COLUMNS = [
+    'billID',
+    'active',
+    'enacted',
+    'vetoed',
+    'officialTitle',
+    'popularTitle'
+]
+SPONSORS_COLUMNS = [
+    'billID',
+    'thomasID',
+    'cosponsor'
+]
 
 subjects = set()
+congresses = set()
 
-for subdir in ['hr', 's', 'hjres', 'sjres']:
-    bills = []
-    for billdir in os.listdir('data/congress/113/bills/' + subdir):
-        with open('data/congress/113/bills/' + subdir + '/' + billdir + '/data.json', 'r') as f:
-            bill = json.load(f)
-            record = {}
+bills_file = open('outputs/bills.csv', 'w')
+bill_writer = csv.DictWriter(bills_file, BILLS_COLUMNS, extrasaction='ignore')
+bill_writer.writeheader()
 
-            record['billID'] = bill['bill_id']
-            record['active'] = bill['history']['active']
-            record['enacted'] = bill['history']['enacted']
-            record['vetoed'] = bill['history']['vetoed']
-            record['officialTitle'] = bill['official_title']
-            record['popularTitle'] = bill['popular_title']
+sponsors_file = open('outputs/sponsors.csv', 'w')
+sponsor_writer = csv.DictWriter(sponsors_file, SPONSORS_COLUMNS, extrasaction='ignore')
+sponsor_writer.writeheader()
 
-            writer.writerow(record)
+bill_subjects_file = open('outputs/bill_subjects.csv', 'w')
+bill_subject_writer = csv.DictWriter(bill_subjects_file, ['billID', 'title'], extrasaction='ignore')
+bill_subject_writer.writeheader()
 
-            # Write out the sponsorships for this bill
-            for cosponsor in bill['cosponsors']:
-                rel = {
-                        'billID': bill['bill_id'],
-                        'thomasID': cosponsor['thomas_id'],
-                        'cosponsor': 1
-                        }
-                rel_writer.writerow(rel)
-            sponsor = bill['sponsor']
-            srel = {
-                    'billID': bill['bill_id'],
-                    'thomasID': sponsor['thomas_id'],
-                    'cosponsor': 0
-                    }
-            rel_writer.writerow(srel)
+bill_congresses_file = open('outputs/bill_congresses.csv', 'w')
+bill_congress_writer = csv.DictWriter(bill_congresses_file, ['billID', 'number'], extrasaction='ignore')
+bill_congress_writer.writeheader()
 
-            # Add subjects to the list
-            for subject in bill['subjects']:
+for bill_type in BILL_TYPES:
+    bill_records = []
+    congresses_dir = os.path.join(DATA_ROOT, 'congress')
+    for congress in os.listdir(congresses_dir):
+        congress_records = []
+        bills_dir = os.path.join(congresses_dir, congress, 'bills', bill_type)
+        for bill_num in os.listdir(bills_dir):
+            data_path = os.path.join(bills_dir, bill_num)
+            bill_file = open(os.path.join(data_path, 'data.json'), 'r')
+            bill_data = json.load(bill_file)
+
+            # Write out the bill info
+            bill_record = {}
+            bill_record['billID'] = bill_data['bill_id']
+            bill_record['active'] = bill_data['history']['active']
+            bill_record['enacted'] = bill_data['history']['enacted']
+            bill_record['vetoed'] = bill_data['history']['vetoed']
+            bill_record['officialTitle'] = bill_data['official_title']
+            bill_record['popularTitle'] = bill_data['popular_title']
+
+            bill_writer.writerow(bill_record)
+
+            # Write out the bill->sponsors relationships for this bill
+            for cosponsor in bill_data['cosponsors']:
+                sponsor_writer.writerow({
+                    'billID': bill_data['bill_id'],
+                    'thomasID': cosponsor['thomas_id'],
+                    'cosponsor': 1
+                })
+            sponsor = bill_data['sponsor']
+            sponsor_writer.writerow({
+                'billID': bill_data['bill_id'],
+                'thomasID': sponsor['thomas_id'],
+                'cosponsor': 0
+            })
+
+            # Write out the bill->subjects relationships and record the unique
+            # subjects
+            for subject in bill_data['subjects']:
                 subjects.add(subject)
-                srel_writer.writerow({
-                    'billID': bill['bill_id'],
+                bill_subject_writer.writerow({
+                    'billID': bill_data['bill_id'],
                     'title': subject
-                    })
+                })
 
-of.close()
-srelof.close()
+            # Write out the bill->congress relationship
+            congresses.add(congress)
+            bill_congress_writer.writerow({
+                'number': congress,
+                'billID': bill_data['bill_id']
+            })
 
-sof = open('outputs/subjects.csv', 'w')
-sub_writer = csv.DictWriter(sof, ['title'], extrasaction='ignore')
-sub_writer.writeheader()
+            bill_file.close()
 
+bills_file.close()
+bill_congresses_file.close()
+bill_subjects_file.close()
+
+# List of subjects
+subjects_file = open('outputs/subjects.csv', 'w')
+subject_writer = csv.DictWriter(subjects_file, ['title'], extrasaction='ignore')
+subject_writer.writeheader()
 for subject in subjects:
-    sub_writer.writerow({'title': subject})
+    subject_writer.writerow({'title': subject})
+subjects_file.close()
 
-sof.close()
+# List of congresses
+congresses_file = open('outputs/congresses.csv', 'w')
+congress_writer = csv.DictWriter(congresses_file, ['number'], extrasaction='ignore')
+congress_writer.writeheader()
+for congress in congresses:
+    congress_writer.writerow({'number': congress})
+congresses_file.close()

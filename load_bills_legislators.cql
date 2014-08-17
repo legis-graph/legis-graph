@@ -1,7 +1,7 @@
 // Load current sponsorships
 USING PERIODIC COMMIT
 LOAD CSV WITH HEADERS
-FROM 'http://localhost:8000/outputs/bills_legislators.csv'
+FROM 'http://localhost:8000/outputs/sponsors.csv'
 AS line
 MATCH (bill:Bill { billID: line.billID }),
       (legislator:Legislator { thomasID: line.thomasID })
