@@ -14,6 +14,7 @@ else
     CONGRESS=113
 fi
 
+mkdir -p congress
 cd congress
 rsync -avz --delete --delete-excluded --exclude **/text-versions/ \
 govtrack.us::govtrackdata/congress/${CONGRESS} .
