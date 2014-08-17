@@ -25,6 +25,8 @@ $ python parse_bills.py
 ...
 ```
 
+The scripts require Python 3.
+
 ## Load data
 
 Use the `*.cql` scripts to load the data into Neo4j.
@@ -43,6 +45,7 @@ $ neo4j-shell < load_bills_congresses.cql
 $ neo4j-shell < load_bills_subjects.cql
 ...
 $ neo4j-shell < load_bills_legislators.cql
+...
 ```
 
 ## Sample queries
