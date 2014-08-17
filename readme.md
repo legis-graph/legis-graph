@@ -29,7 +29,9 @@ The scripts require Python 3.
 
 ## Load data
 
-Use the `*.cql` scripts to load the data into Neo4j.
+Use the `*.cql` scripts to load the data into Neo4j. You need to have the data
+files available over HTTP, so before you do this step, in another terminal
+window, just run `$ python -m http.server` in the repository root.
 
 ```
 $ neo4j-shell < load_legislators.cql
