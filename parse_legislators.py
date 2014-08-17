@@ -3,6 +3,16 @@ import yaml
 
 OUTPUT_COLUMNS = [
         'thomasID',
+        'govtrackID',
+        'bioguideID',
+        'opensecretsID',
+        'lisID',
+        'votesmartID',
+        'fecIDs',
+        'icpsrID',
+        'wikipediaID',
+        'cspanID',
+        'washpostID',
         'firstName',
         'lastName',
         'birthday',
@@ -29,37 +39,41 @@ def load_legistors(kind):
         for person in current:
             record = {}
 
-            # Don't parse anyone without a Thomas ID
-            if 'thomas' not in person['id']:
-                continue
-
-            record['thomasID'] = person['id']['thomas']
+            record['thomasID'] = person['id'].get('thomas', '')
+            record['govtrackID'] = person['id'].get('govtrack', '')
+            record['bioguideID'] = person['id'].get('bioguide', '')
+            record['opensecretsID'] = person['id'].get('opensecrets', '')
+            record['lisID'] = person['id'].get('lis', '')
+            record['votesmartID'] = person['id'].get('votesmart', '')
+            record['fecIDs'] = person['id'].get('fec', [])
+            record['icpsrID'] = person['id'].get('icpsr', '')
+            record['wikipediaID'] = person['id'].get('wikipedia', '')
+            record['cspanID'] = person['id'].get('cspan', '')
+            record['washpostID'] = person['id'].get('washington_post', '')
             record['firstName'] = person['name']['first']
             record['lastName'] = person['name']['last']
+            record['fullName'] = person['name']['last'] + ', ' + person['name']['first']
 
-            if 'birthday' in person['bio']:
-                record['birthday'] = person['bio']['birthday']
-
-            if 'gender' in person['bio']:
-                record['gender'] = person['bio']['gender']
-
-            if 'religion' in person['bio']:
-                record['religion'] = person['bio']['religion']
+            if 'bio' in person:
+                record['birthday'] = person['bio'].get('birthday', '')
+                record['gender'] = person['bio'].get('gender', '')
+                record['religion'] = person['bio'].get('religion', '')
             
-            demct = 0
-            repct = 0
-            othct = 0
-            for term in person['terms']:
-                if term['type'] == 'dem':
-                    demct += 1
-                elif term['type'] == 'rep':
-                    repct += 1
-                else:
-                    othct += 1
+            if 'terms' in person:
+                demct = 0
+                repct = 0
+                othct = 0
+                for term in person['terms']:
+                    if term['type'] == 'dem':
+                        demct += 1
+                    elif term['type'] == 'rep':
+                        repct += 1
+                    else:
+                        othct += 1
 
-            record['democratCount'] = demct
-            record['republicanCount'] = repct
-            record['otherCount'] = othct
+                record['democratCount'] = demct
+                record['republicanCount'] = repct
+                record['otherCount'] = othct
 
             maxct = max(demct, repct, othct)
             if demct == maxct:
