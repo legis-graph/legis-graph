@@ -56,25 +56,5 @@ $ neo4j-shell < load_votes.cql
 
 ## Sample queries
 
-Find the number of bills proposed during each congress in the database.
-
-```
-MATCH (c:Congress)<-[:PROPOSED_DURING]-(b:Bill)
-RETURN c.number AS congress, count(b) as numProposed
-```
-
-Find the number of bills enacted in each congress in the database and the
-average number of sponsors bills had during that congress.
-
-```
-MATCH (c:Congress)<-[:PROPOSED_DURING]-(b:Bill)-[:SPONSORED_BY]->(l:Legislator)
-WHERE b.enacted = 'True'
-WITH c, b, count(l) AS numSponsors
-RETURN c.number AS congress, count(b) AS numPassed, avg(numSponsors) AS avgSponsors
-```
-
-Find the subject most frequently associated with bills sponsored by 10 members
-of congress across all congresses in which they participated.
-
-```
-```
+See the [GitHub wiki](https://github.com/glesica/legis-graph/wiki) for some
+sample queries you can run against the completed database.
