@@ -5,7 +5,7 @@ OUTPUT_COLUMNS = [
     'type',
     'name',
     'url',
-    'thomas_id',
+    'thomasID',
     'jurisdiction',
 
 ]
@@ -28,7 +28,7 @@ def load_committees(kind):
             record['type'] = committee.get('type', '')
             record['name'] = committee.get('name', '')
             record['url'] = committee.get('url', '')
-            record['thomas_id'] = committee.get('thomas_id', '')
+            record['thomasID'] = committee.get('thomas_id', '')
             record['jurisdiction'] = committee.get('jurisdiction', '')
 
             writer.writerow(record)
