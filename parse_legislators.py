@@ -21,7 +21,9 @@ OUTPUT_COLUMNS = [
         'party',
         'democratCount',
         'republicanCount',
-        'otherCount'
+        'otherCount',
+        'state',
+        'district'
         ]
 
 def load_legistors(kind):
@@ -64,12 +66,18 @@ def load_legistors(kind):
                 repct = 0
                 othct = 0
                 for term in person['terms']:
+                    # just use the most recent state / district
+                    # FIXME: incorporate possible multiple state / districts into the data model
+                    record['state'] = term.get('state', '')
+                    # FIXME: district not available for more recent terms?
+                    #record['district'] = term.get('district', '')
                     if term['type'] == 'dem':
                         demct += 1
                     elif term['type'] == 'rep':
                         repct += 1
                     else:
                         othct += 1
+
 
                 record['democratCount'] = demct
                 record['republicanCount'] = repct
