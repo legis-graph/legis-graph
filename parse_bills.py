@@ -37,6 +37,10 @@ bill_congresses_file = open('outputs/bill_congresses.csv', 'w')
 bill_congress_writer = csv.DictWriter(bill_congresses_file, ['billID', 'number'], extrasaction='ignore')
 bill_congress_writer.writeheader()
 
+bill_committees_file = open('outputs/bill_committees.csv', 'w')
+bill_committees_writer = csv.DictWriter(bill_committees_file, ['billID', 'committeeID'], extrasaction='ignore')
+bill_committees_writer.writeheader()
+
 for bill_type in BILL_TYPES:
     bill_records = []
     congresses_dir = os.path.join(DATA_ROOT, 'congress')
@@ -73,6 +77,15 @@ for bill_type in BILL_TYPES:
                 'cosponsor': 0
             })
 
+            #Write out the bill-[:REFERRED_TO]->committee relationships for this bill
+            for committee in bill_data['committees']:
+                if committee['activity'][0] == 'referral':
+                    record = {
+                        'billID': bill_data['bill_id'],
+                        'committeeID': committee['committee_id']
+                    }
+                    bill_committees_writer.writerow(record)
+
             # Write out the bill->subjects relationships and record the unique
             # subjects
             for subject in bill_data['subjects']:
@@ -94,6 +107,7 @@ for bill_type in BILL_TYPES:
 bills_file.close()
 bill_congresses_file.close()
 bill_subjects_file.close()
+bill_committees_file.close()
 
 # List of subjects
 subjects_file = open('outputs/subjects.csv', 'w')
