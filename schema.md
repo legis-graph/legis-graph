@@ -1,6 +1,8 @@
 # LegisGraph Schema
 
-## Legislator
+## Nodes
+
+### Legislator
 
   * thomasID (index) - id.thomas
   * firstName - name.first
@@ -13,7 +15,7 @@
   * republicanCount - terms[].type
   * otherCount - terms[].type
 
-## Bill
+### Bill
 
   * billID (index) - bill_id
   * active - history.active
@@ -21,16 +23,45 @@
   * vetoed - history.vetoed
   * officialTitle - official_title
   * popularTitle - popular_title
-  * DEALS_WITH -> Subject
-    * primarySubject [bool]
-  * SPONSORED_BY -> Bill
-    * cosponsor [bool]
-  * CONGRESS -> Congress
 
-## Subject
+### Subject
 
   * title
 
-## Congress
+### Congress
 
   * number
+  
+### State
+
+  * code
+  
+### Committee
+  * thomasID
+  * jurisdiction
+  * name
+  * url
+  * type
+  
+  
+## Relationships
+
+### (Bill)-[:PROPOSED_DURING]->(Congress)
+
+### (Bill)-[:DEALS_WITH]->(Subject)
+
+### (Bill)-[:REFERRED_TO]->(Committee)
+
+### (Bill)-[:SPONSORED_BY]->(Legislator)
+
+  * cosponsor - 1 if cosponsor, 0 if sponsor
+
+### (Legislator)-[:VOTED_ON]->(Bill)
+  
+  * vote
+
+### (Legislator)-[:SERVES_ON]->(Committee)
+
+  * rank
+
+### (Legislator)-[:REPRESENTS]->(State)
