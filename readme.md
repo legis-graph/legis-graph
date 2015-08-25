@@ -79,7 +79,7 @@ $ path/to/neo4j/bin/neo4j-shell < load_committee_members.cql
 
 ## Queries
 
-Once the data is loaded in Neo4j we can start to 
+Once the data is loaded in Neo4j we can use queries written in Cypher to discover interesting things about Congress.
 
 ### General Queries
 
