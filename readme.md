@@ -54,6 +54,8 @@ Use the `*.cql` scripts to load the data into Neo4j. You need to have the data
 files available over HTTP, so before you do this step, in another terminal
 window, just run `$ python -m http.server` in the repository root.
 
+Be sure Neo4j is running, by default legis-graph assumes Neo4j is running locally.
+
 ```
 $ path/to/neo4j/bin/neo4j-shell < load_legislators.cql
 ...
