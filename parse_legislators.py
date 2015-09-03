@@ -23,7 +23,9 @@ OUTPUT_COLUMNS = [
         'republicanCount',
         'otherCount',
         'state',
-        'district'
+        'district',
+        'type',
+        'currentParty'
         ]
 
 def load_legistors(kind):
@@ -60,28 +62,37 @@ def load_legistors(kind):
                 record['birthday'] = person['bio'].get('birthday', '')
                 record['gender'] = person['bio'].get('gender', '')
                 record['religion'] = person['bio'].get('religion', '')
-            
+
+
             if 'terms' in person:
                 demct = 0
                 repct = 0
                 othct = 0
+                type = ''
+                currentParty = ''
                 for term in person['terms']:
                     # just use the most recent state / district
                     # FIXME: incorporate possible multiple state / districts into the data model
                     record['state'] = term.get('state', '')
                     # FIXME: district not available for more recent terms?
                     #record['district'] = term.get('district', '')
-                    if term['type'] == 'dem':
+                    party = term.get("party", '')
+                    if party == 'Democrat':
                         demct += 1
-                    elif term['type'] == 'rep':
+                    elif party == 'Republican':
                         repct += 1
                     else:
                         othct += 1
+
+                    type = term['type']
+                    currentParty = party
 
 
                 record['democratCount'] = demct
                 record['republicanCount'] = repct
                 record['otherCount'] = othct
+                record['type'] = type
+                record['currentParty'] = currentParty
 
             maxct = max(demct, repct, othct)
             if demct == maxct:
@@ -90,6 +101,11 @@ def load_legistors(kind):
                 record['party'] = 'republican'
             if othct == maxct:
                 record['party'] = 'other'
+
+            if record['type'] == 'rep':
+                record['type'] = 'House'
+            elif record['type'] == 'sen':
+                record['type'] = 'Senate'
 
             writer.writerow(record)
 
