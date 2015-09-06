@@ -44,6 +44,13 @@
   * type
   
   
+### Body
+  * type - *either "Senate" or "House"*
+  
+### Party
+  * name
+  
+  
 ## Relationships
 
 ### (Bill)-[:PROPOSED_DURING]->(Congress)
@@ -65,3 +72,7 @@
   * rank
 
 ### (Legislator)-[:REPRESENTS]->(State)
+
+### (Legislator)-[:ELECTED_TO]->(Body)
+
+### (Legislator)-[:IS_MEMBER_OF]->(Party)
