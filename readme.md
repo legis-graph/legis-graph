@@ -130,4 +130,8 @@ WITH c, b, count(l) AS numSponsors
 RETURN c.number AS congress, count(b) AS numPassed, avg(numSponsors) AS avgSponsors
 ```
 
+## Authors
+
+* [William Lyon](http://github.com/johnymontana)
+* [George Lesica](http://github.com/glesica)
 
