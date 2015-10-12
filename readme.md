@@ -130,6 +130,11 @@ WITH c, b, count(l) AS numSponsors
 RETURN c.number AS congress, count(b) AS numPassed, avg(numSponsors) AS avgSponsors
 ```
 
+## Articles
+
+* [Introducing legis-graph - US Congressional Data With Govtrack and Neo4j](http://www.lyonwj.com/2015/09/20/legis-graph-congressional-data-using-neo4j/)
+* [Congressional PageRank - Analyzing US Congress With Neo4j and Apache Spark](http://www.lyonwj.com/2015/10/11/congressional-pagerank/)
+
 ## Authors
 
 * [William Lyon](http://github.com/johnymontana)
