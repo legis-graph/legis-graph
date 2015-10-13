@@ -140,3 +140,7 @@ RETURN c.number AS congress, count(b) AS numPassed, avg(numSponsors) AS avgSpons
 * [William Lyon](http://github.com/johnymontana)
 * [George Lesica](http://github.com/glesica)
 
+## Terms
+
+The software in this repository is provided "AS-IS" without warranties or guarantees of any kind. Data used by this software is provided by [Govtrack.us](http://govtrack.us) and should be used under the terms specified by Govtrack.us [here](https://www.govtrack.us/developers/license).
+
