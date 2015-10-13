@@ -13,7 +13,7 @@ Also, [this file](schema.md) has more detailed information about the data model.
 
 ## Quickstart
 
-For convenience, data from the 114th Congress is available as a Neo4j datastore. Simply download [this zip archive](https://dl.dropboxusercontent.com/u/67572426/graph.db.zip), extract and replace the `data/graph.db` folder in an existing version of Neo4j.
+For convenience, data from the 114th Congress is available as a Neo4j datastore. Simply download [this zip archive](https://dl.dropboxusercontent.com/u/67572426/legis-graph.graph.db.zip), extract and replace the `data/graph.db` folder in an existing version of Neo4j.
 
 ## Load Data
 
