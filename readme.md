@@ -15,6 +15,9 @@ Also, [this file](schema.md) has more detailed information about the data model.
 
 For convenience, data from the 114th Congress is available as a Neo4j datastore. Simply download [this zip archive](https://dl.dropboxusercontent.com/u/67572426/legis-graph.graph.db.zip), extract and replace the `data/graph.db` folder in an existing version of Neo4j.
 
+Alternatively, you can use the [LazyWebCypher tool](http://johnymontana.github.io/LazyWebCypher) with this [link.](http://johnymontana.github.io/LazyWebCypher/?file=https://raw.githubusercontent.com/legis-graph/legis-graph/master/quickstart/114/legis_graph_import_114.cypher)
+)
+
 ## Load Data
 
 We're currently working to streamline the data loading process, but for now you can follow these steps to load data.
