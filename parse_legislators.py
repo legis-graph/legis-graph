@@ -74,8 +74,9 @@ def load_legistors(kind):
                     # just use the most recent state / district
                     # FIXME: incorporate possible multiple state / districts into the data model
                     record['state'] = term.get('state', '')
-                    # FIXME: district not available for more recent terms?
-                    #record['district'] = term.get('district', '')
+
+                    # NOTE: districts are not relevant for Senators
+                    record['district'] = term.get('district', '')
                     party = term.get("party", '')
                     if party == 'Democrat':
                         demct += 1
