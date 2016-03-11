@@ -13,7 +13,7 @@ OUTPUT_COLUMNS = [
 
 def load_committees(kind):
     if kind not in ['current', 'historical']:
-        raise Exception('Committe type must be either current or historical')
+        raise Exception('Committee type must be either current or historical')
 
     inpath = 'data/congress-legislators/committees-{}.yaml'.format(kind)
     with open(inpath, 'r') as f:
