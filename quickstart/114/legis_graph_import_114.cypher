@@ -117,3 +117,14 @@ MATCH (c:Committee {thomasID: line.committeeID})
 MATCH (l:Legislator {thomasID: line.legislatorID})
 CREATE UNIQUE (l)-[r:SERVES_ON]->(c)
 SET r.rank = line.rank;
+
+// Create District nodes
+LOAD CSV WITH HEADERS
+FROM 'https://github.com/legis-graph/legis-graph/blob/master/outputs/cb_2014_districts.csv?raw=true' AS line
+CREATE (d:District)
+SET d.state = line.state,
+    d.district = line.district,
+    d.wkt = line.polygon
+WITH d,line
+MATCH (l:Legislator) WHERE l.state = line.state AND l.district = line.district
+CREATE UNIQUE (l)-[:REPRESENTS]->(d);
