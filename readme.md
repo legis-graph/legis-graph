@@ -51,33 +51,8 @@ The scripts require Python 3.
 
 ### Insert into Neo4j
 
-Use the `*.cql` scripts to load the data into Neo4j. You need to have the data
-files available over HTTP, so before you do this step, in another terminal
-window, just run `$ python -m http.server` in the repository root.
-
-Be sure Neo4j is running, by default legis-graph assumes Neo4j is running locally.
-
 ```
-$ path/to/neo4j/bin/neo4j-shell < load_legislators.cql
-...
-$ path/to/neo4j/bin/neo4j-shell < load_bills.cql
-...
-$ path/to/neo4j/bin/neo4j-shell < load_subjects.cql
-...
-$ path/to/neo4j/bin/neo4j-shell < load_congresses.cql
-...
-$ path/to/neo4j/bin/neo4j-shell < load_bills_congresses.cql
-...
-$ path/to/neo4j/bin/neo4j-shell < load_bills_subjects.cql
-...
-$ path/to/neo4j/bin/neo4j-shell < load_bills_legislators.cql
-...
-$ path/to/neo4j/bin/neo4j-shell < load_votes.cql
-...
-$ path/to/neo4j/bin/neo4j-shell < load_committees.cql
-...
-$ path/to/neo4j/bin/neo4j-shell < load_committee_members.cql
-...
+$ path/to/neo4j/bin/neo4j-shell < import.cypher
 ```
 
 ## Queries
