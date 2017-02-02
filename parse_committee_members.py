@@ -20,7 +20,7 @@ def load_members():
             for member in current[committee]:
                 record = {}
                 record['committeeID'] = committee
-                record['legislatorID'] = member.get('thomas', '')
+                record['legislatorID'] = member.get('bioguide', '')
                 record['rank'] = member.get('rank', '')
 
                 writer.writerow(record)

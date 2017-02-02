@@ -14,7 +14,7 @@ BILLS_COLUMNS = [
 ]
 SPONSORS_COLUMNS = [
     'billID',
-    'thomasID',
+    'bioguideID',
     'cosponsor'
 ]
 
@@ -67,19 +67,19 @@ for bill_type in BILL_TYPES:
             for cosponsor in bill_data['cosponsors']:
                 sponsor_writer.writerow({
                     'billID': bill_data['bill_id'],
-                    'thomasID': cosponsor['thomas_id'],
+                    'bioguideID': cosponsor['bioguide_id'],
                     'cosponsor': 1
                 })
             sponsor = bill_data['sponsor']
             sponsor_writer.writerow({
                 'billID': bill_data['bill_id'],
-                'thomasID': sponsor['thomas_id'],
+                'bioguideID': sponsor['bioguide_id'],
                 'cosponsor': 0
             })
 
             #Write out the bill-[:REFERRED_TO]->committee relationships for this bill
             for committee in bill_data['committees']:
-                if committee['activity'][0] == 'referral':
+                if committee['activity'] and len(committee['activity']) > 1 and committee['activity'][0] == 'referral':
                     record = {
                         'billID': bill_data['bill_id'],
                         'committeeID': committee['committee_id']
