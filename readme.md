@@ -51,6 +51,8 @@ The scripts require Python 3.
 
 ### Insert into Neo4j
 
+See the steps documented [here](https://github.com/legis-graph/legis-graph/issues/7) for configuring `neo4j-shell` and pointing Neo4j to the CSV files generated in the previous step.
+
 ```
 $ path/to/neo4j/bin/neo4j-shell < import.cypher
 ```
