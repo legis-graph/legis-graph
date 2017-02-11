@@ -20,6 +20,12 @@ Also, [this file](schema.md) has more detailed information about the data model.
 
 We're currently working to streamline the data loading process, but for now you can follow these steps to load data.
 
+### Install requirements
+
+```bash
+pip3 install -r requirements.txt
+```
+
 ### Download / update data
 
 Sync a particular congress by its number (so, for instance, for the 112th
@@ -84,7 +90,7 @@ MATCH (n:Legislator {firstName: "Steve", lastName: "Daines"})<-[:SPONSORED_BY]-(
 For how many Bills did Steve Daines vote Yea?
 
 ~~~cypher
-MATCH (n:Legislator {firstName: "Steve", lastName: "Daines"})-[v:VOTED_ON]->(b:Bill) 
+MATCH (n:Legislator {firstName: "Steve", lastName: "Daines"})-[v:VOTED_ON]->(b:Bill)
 WHERE v.vote = "Yea"
 RETURN b
 ~~~
@@ -121,4 +127,3 @@ RETURN c.number AS congress, count(b) AS numPassed, avg(numSponsors) AS avgSpons
 ## Terms
 
 The software in this repository is provided "AS-IS" without warranties or guarantees of any kind. Data used by this software is provided by [Govtrack.us](http://govtrack.us) and should be used under the terms specified by Govtrack.us [here](https://www.govtrack.us/developers/license).
-
