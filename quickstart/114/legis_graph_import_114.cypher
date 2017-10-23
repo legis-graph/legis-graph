@@ -79,7 +79,7 @@ LOAD CSV WITH HEADERS
 FROM 'https://raw.githubusercontent.com/legis-graph/legis-graph/master/outputs/sponsors.csv'
 AS line
 MATCH (bill:Bill { billID: line.billID }),
-      (legislator:Legislator { thomasID: line.thomasID })
+      (legislator:Legislator { bioguideID: line.bioguideID })
 MERGE (bill)-[r:SPONSORED_BY]->(legislator)
     ON CREATE SET r.cosponsor = line.cosponsor;
 
