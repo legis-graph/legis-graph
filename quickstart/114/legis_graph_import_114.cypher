@@ -16,6 +16,7 @@ CREATE INDEX ON :Legislator(icpsrID);
 
 LOAD CSV WITH HEADERS
 FROM 'https://raw.githubusercontent.com/legis-graph/legis-graph/master/outputs/legislators-current.csv' AS line
+WITH line WHERE line.thomasID IS NOT NULL
 MERGE (legislator:Legislator { thomasID: line.thomasID })
     ON CREATE SET legislator = line
     ON MATCH SET legislator = line
